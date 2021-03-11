@@ -4,9 +4,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
+use AppBundle\Event\ProductPublishedEvent;
 use AppBundle\Form\ProductType;
 use AppBundle\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,9 +21,10 @@ class ProductController extends Controller
     /**
      * @Route("/new", name="_new")
      * @param Request $request
+     * @param EventDispatcherInterface $dispatcher
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, EventDispatcherInterface $dispatcher)
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -33,12 +36,19 @@ class ProductController extends Controller
             $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('product_show');
+            //use event to display message after flush
+            $event = new ProductPublishedEvent($product);
+            $dispatcher->dispatch(ProductPublishedEvent::NAME, $event);
+
+            // comment return because the message willnot be seen with redirect
+            //return $this->redirectToRoute('product_show');
         }
 
         return $this->render(
             'form/newProduct.html.twig',
-            ['form' => $form->createView()]
+            [
+                'form' => $form->createView(),
+            ]
         );
     }
 
