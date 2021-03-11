@@ -57,11 +57,4 @@ class ProductController extends Controller
 
     }
 
-    // if you have multiple entity managers, use the registry to fetch them
-    public function editAction()
-    {
-        $doctrine = $this->getDoctrine();
-        $entityManager = $doctrine->getManager();
-        $otherEntityManager = $doctrine->getManager('other_connection');
-    }
 }
