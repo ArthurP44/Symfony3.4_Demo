@@ -4,19 +4,25 @@
 namespace AppBundle\Controller;
 
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Category;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\View\ViewHandler;
+use FOS\RestBundle\View\View;
 
 class CategoryController extends Controller
+
+//using FOSRestBundle => here the long way, with view, format (...)
 {
     /**
-     * @Route("/category/{id}", requirements={"place_id" = "\d+"}, name="single_category", methods={"GET"})
+     * @Rest\View()
+     * @Rest\Get("/categories/{id}")
      * @param Request $request
-     * @return JsonResponse
+     * @return View|JsonResponse
      */
     public function getProductAction(Request $request)
     {
@@ -31,35 +37,19 @@ class CategoryController extends Controller
             return new JsonResponse(['message' => 'category not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $formatted = [
-            'id' => $category->getId(),
-            'name' => $category->getName(),
-        ];
+        $view = View::create($category);
+        $view->setFormat('json');
 
-        return new JsonResponse($formatted);
+        return $view;
     }
 
+    //using FOSRestBundle => here the short everything is set in config.yml + routing.yml (format, view...)
     /**
-     * @Route("/category_list", name="category_list", methods={"GET"})
-     * @param Request $request
-     * @return JsonResponse
+     * @Rest\View()
+     * @Rest\Get("/categories")
      */
-    public function getProductsAction(Request $request)
+    public function getProductsAction()
     {
-        $categories = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:Category')
-            ->findAll();
-
-        /* @var $categories Category[] */
-
-        $formatted = [];
-        foreach ($categories as $category) {
-            $formatted[] = [
-                'id' => $category->getId(),
-                'name' => $category->getName(),
-            ];
-        }
-        return new JsonResponse($formatted);
+        return $this->getDoctrine()->getManager()->getRepository('AppBundle:Category')->findAll();
     }
 }
