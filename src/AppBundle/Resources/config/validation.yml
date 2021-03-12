@@ -1,0 +1,8 @@
+AppBundle\Entity\Category:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+  properties:
+    name:
+      - NotBlank: ~
+      - Type: string
+

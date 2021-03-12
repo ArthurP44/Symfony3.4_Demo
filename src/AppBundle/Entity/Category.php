@@ -7,7 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="categories")
+ * @ORM\Table(
+ *     name="categories",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="categories_name_unique",columns={"name"})}
+ * )
  */
 class Category
 {

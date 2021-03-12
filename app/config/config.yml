@@ -81,5 +81,6 @@ fos_rest:
     format_listener:
         rules:
             - { path: '^/', priorities: [ 'json' ], fallback_format: 'json' }
-
+    body_listener:
+        enabled: true
 
