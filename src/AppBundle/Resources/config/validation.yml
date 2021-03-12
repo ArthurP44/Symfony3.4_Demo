@@ -6,3 +6,15 @@ AppBundle\Entity\Category:
       - NotBlank: ~
       - Type: string
 
+AppBundle\Entity\Warehouse:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: type
+  properties:
+    type:
+      - NotNull: ~
+      - Choice:
+          choices: [ Europe, Asia ]
+    shippingFees:
+      - NotNull: ~
+      - GreaterThanOrEqual:
+          value: 0

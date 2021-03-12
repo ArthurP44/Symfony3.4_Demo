@@ -1,0 +1,22 @@
+AppBundle\Entity\Category:
+  attributes:
+    id:
+      groups: ['category', 'warehouse']
+    name:
+      groups: ['category', 'warehouse']
+    warehouses:
+      groups: ['category']
+
+
+AppBundle\Entity\Warehouse:
+  attributes:
+    id:
+      groups: ['category', 'warehouse']
+    type:
+      groups: ['category', 'warehouse']
+    shippingFees:
+      groups: ['category', 'warehouse']
+    country:
+      groups: [ 'warehouse' ]
+    category:
+      groups: ['warehouse']

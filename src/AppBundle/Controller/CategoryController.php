@@ -3,8 +3,6 @@
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\Entity\Product;
 use AppBundle\Form\CategoryType;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,16 +10,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Category;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
 
 class CategoryController extends Controller
 
+//***********GET**************
 //using FOSRestBundle => here the long way, with view, format (...)
+
 {
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"category"})
      * @Rest\Get("/categories/{id}")
      * @param Request $request
      * @return View|JsonResponse
@@ -36,7 +34,7 @@ class CategoryController extends Controller
         /* @var $category Category */
 
         if (empty($category)) {
-            return new JsonResponse(['message' => 'category not found'], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
         }
 
         $view = View::create($category);
@@ -44,10 +42,10 @@ class CategoryController extends Controller
 
         return $view;
     }
-
+    //***********GET**************
     //using FOSRestBundle => here the short everything is set in config.yml + routing.yml (format, view...)
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"category"})
      * @Rest\Get("/categories")
      */
     public function getCategoriesAction()
@@ -55,8 +53,9 @@ class CategoryController extends Controller
         return $this->getDoctrine()->getManager()->getRepository('AppBundle:Category')->findAll();
     }
 
+    //***********POST**************
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"category"})
      * @Rest\Post("/categories")
      * @param Request $request
      * @return Category
@@ -78,8 +77,9 @@ class CategoryController extends Controller
         }
     }
 
+    //***********DELETE**************
     /**
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT, serializerGroups={"category"})
      * @Rest\Delete("/categories/{id}")
      */
     public function removeCategoriesAction(Request $request)
@@ -92,6 +92,52 @@ class CategoryController extends Controller
         if($category){
             $em->remove($category);
             $em->flush();
+        }
+    }
+
+    //***********PUT**************
+    //difference between patch and put is the clearMissing attribute set to true/false (to partially/entirely update the resource)
+    /**
+     * @Rest\View(serializerGroups={"category"})
+     * @Rest\Put("/categories/{id}")
+     */
+    public function updateCategoriesAction(Request $request)
+    {
+        return $this->updateCategory($request, true);
+    }
+
+    //***********PATCH**************
+    /**
+     * @Rest\View(serializerGroups={"category"})
+     * @Rest\Patch("/categories/{id}")
+     */
+    public function patchCategoriesAction(Request $request)
+    {
+        return $this->updateCategory($request, false);
+    }
+
+
+    public function updateCategory(Request $request, $clearMissing)
+    {
+        $category = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Category')
+            ->find($request->get('id'));
+        /* @var $category Category */
+
+        if(empty($category)){
+            return View::create(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->submit($request->request->all(), $clearMissing);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+            return $category;
+        } else {
+            return $form;
         }
     }
 }

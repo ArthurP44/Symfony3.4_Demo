@@ -5,3 +5,7 @@ app:
 categories:
   type: rest
   resource: AppBundle\Controller\CategoryController
+
+warehouses:
+  type: rest
+  resource: AppBundle\Controller\WarehouseController

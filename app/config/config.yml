@@ -78,9 +78,13 @@ fos_rest:
         include_format: false
     view:
         view_response_listener: true
+
+    ###to use the product controller comment the format_listener part ##########
     format_listener:
         rules:
             - { path: '^/', priorities: [ 'json' ], fallback_format: 'json' }
+    ############################################################################
+
     body_listener:
         enabled: true
 

@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +27,17 @@ class Category
      */
     public $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Warehouse", mappedBy="category")
+     * @var Warehouse[]
+     */
+    protected $warehouses;
+
+    public function __construct()
+    {
+        $this->warehouses = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -40,6 +52,22 @@ class Category
     {
         $this->name = $name;
         return $this;
+    }
+
+    /**
+     * @return Warehouse[]
+     */
+    public function getWarehouses()
+    {
+        return $this->warehouses;
+    }
+
+    /**
+     * @param Warehouse[] $warehouses
+     */
+    public function setWarehouses($warehouses)
+    {
+        $this->warehouses = $warehouses;
     }
 
 }
