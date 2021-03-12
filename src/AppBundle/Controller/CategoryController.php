@@ -89,10 +89,14 @@ class CategoryController extends Controller
             ->find($request->get('id'));
 
         /* @var $place Category */
-        if($category){
-            $em->remove($category);
-            $em->flush();
+        if(!$category){
+            return;
         }
+        foreach($category->getWarehouses() as $warehouse){
+            $em->remove($warehouse);
+        }
+        $em->remove($category);
+        $em->flush();
     }
 
     //***********PUT**************

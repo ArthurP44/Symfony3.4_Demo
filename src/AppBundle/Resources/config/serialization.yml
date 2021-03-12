@@ -17,6 +17,6 @@ AppBundle\Entity\Warehouse:
     shippingFees:
       groups: ['category', 'warehouse']
     country:
-      groups: [ 'warehouse' ]
+      groups: ['category', 'warehouse' ]
     category:
       groups: ['warehouse']
