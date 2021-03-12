@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Category;
 use FOS\RestBundle\View\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class CategoryController extends Controller
 
@@ -43,8 +44,15 @@ class CategoryController extends Controller
         return $view;
     }
     //***********GET**************
+
     //using FOSRestBundle => here the short everything is set in config.yml + routing.yml (format, view...)
+
     /**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Get categories list",
+     *     output= { "class"=Category::class, "collection"=true, "groups"={"category"} }
+     *     )
      * @Rest\View(serializerGroups={"category"})
      * @Rest\Get("/categories")
      */
