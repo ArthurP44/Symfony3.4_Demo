@@ -89,8 +89,8 @@ fos_rest:
         rules:
             - { path: '^/categories', priorities: [ 'json', 'xml' ], fallback_format: 'json', prefer_extension: false }
             - { path: '^/product', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
-            - { path: '^/home', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
             - { path: '^/documentation', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
+            - { path: '^/', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
     ############################################################################
 
     body_listener:
