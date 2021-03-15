@@ -18,7 +18,6 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
@@ -55,13 +54,6 @@ doctrine:
         user: '%database_user%'
         password: '%database_password%'
 
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #path: '%database_path%'
-
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -83,16 +75,12 @@ fos_rest:
         formats:
             json: true
             xml: true
-
-    ###to use the product controller comment the format_listener part ##########
     format_listener:
         rules:
             - { path: '^/categories', priorities: [ 'json', 'xml' ], fallback_format: 'json', prefer_extension: false }
             - { path: '^/product', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
             - { path: '^/documentation', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
-            - { path: '^/', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
-    ############################################################################
-
+            - { path: '^/', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }#
     body_listener:
         enabled: true
 
