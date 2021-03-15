@@ -22,6 +22,8 @@
         "nelmio/api-doc-bundle": "2.12",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
+        "sonata-project/admin-bundle": "^3.43",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.7",
         "symfony/cache": "^3.4",
         "symfony/event-dispatcher": "^3.4",
         "symfony/monolog-bundle": "^3.1.0",
