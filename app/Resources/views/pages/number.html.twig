@@ -1,1 +1,7 @@
-<h1>Your lucky number is {{ number }}</h1>
+{% extends 'base.html.twig' %}
+
+{% block title 'Lucky Number'%}
+
+{% block body %}
+    <h1>{{ number|raw }}</h1>
+{% endblock %}

@@ -34,11 +34,11 @@ framework:
     templating:
         engines: [ 'twig' ]
 
-
-# Twig Configuration
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes: ['bootstrap_4_layout.html.twig']
+
 
 # Doctrine Configuration
 doctrine:
@@ -59,7 +59,13 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-# Swiftmailer Configuration
+doctrine_cache:
+    providers:
+        my_markdown_cache:
+            type: file_system
+            file_system:
+                directory: '%kernel.cache_dir%/markdown_cache'
+
 swiftmailer:
     transport: '%mailer_transport%'
     host: '%mailer_host%'
