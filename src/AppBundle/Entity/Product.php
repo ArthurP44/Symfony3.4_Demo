@@ -2,7 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +51,7 @@ class Product
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->comments = Collection::class;
     }
 
     /**
@@ -140,9 +141,9 @@ class Product
     }
 
     /**
-     * @return ArrayCollection|Comment[]
+     * @return Collection|Comment[]
      */
-    public function getComments(): ArrayCollection
+    public function getComments(): Collection
     {
         return $this->comments;
     }

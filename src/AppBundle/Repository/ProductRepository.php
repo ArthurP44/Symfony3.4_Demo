@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findProductOrderedByCommentUsername(){
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.comments', 'comments')
+            ->orderBy('comments.username', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
 }

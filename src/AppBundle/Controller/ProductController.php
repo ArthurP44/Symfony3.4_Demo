@@ -75,13 +75,19 @@ class ProductController extends Controller
 
     }
 
-    public function getCommentsAction($productName)
+    /**
+     * @Route("/list", name="_list")
+     */
+    public function getCommentsOrdered()
     {
         $em = $this->getDoctrine()->getManager();
-        $recentNotes = $em->getRepository('AppBundle:Comment')
-            ->findAllRecentComments($product);
 
+        $products = $em->getRepository('AppBundle:Product')
+            ->findProductOrderedByCommentUsername();
 
+        return $this->render('pages/product/list.html.twig',[
+            'products' => $products
+        ]);
     }
 
 }

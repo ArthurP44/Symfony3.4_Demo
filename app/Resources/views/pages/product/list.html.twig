@@ -1,0 +1,14 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+    <div>
+        <ol>
+            {% for product in products %}
+                <li><p> {{ product.name}} - {{ product.price|currency_EUR }} : {{ product.description }}</p></li>
+                {% for comment in product.comments %}
+                    "{{ comment.comment }}" - {{ comment.username }}
+                {% endfor %}
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}
