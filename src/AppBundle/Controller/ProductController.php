@@ -8,6 +8,7 @@ use AppBundle\Entity\Product;
 use AppBundle\Event\ProductPublishedEvent;
 use AppBundle\Form\ProductType;
 use AppBundle\Repository\ProductRepository;
+use AppBundle\Service\MarkdownTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

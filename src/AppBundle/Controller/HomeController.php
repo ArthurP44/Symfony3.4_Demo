@@ -3,6 +3,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\MarkdownTransformer;
 use Knp\Bundle\MarkdownBundle\Parser\MarkdownParser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,28 +16,14 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $cache = $this->get('doctrine_cache.providers.my_markdown_cache');
-
         $sentence = 'Your *lucky number* is : ';
-        //$sentence = $this->get('markdown.parser')->transform($sentence);
-        $key = md5($sentence);
 
-        //caching $sentence with doctrine_cache
-        if ($cache->contains($key)) {
-            $sentence = $cache->fetch($key);
-        } else {
-            sleep(3);
-            $sentence = $this->get('markdown.parser')
-                ->transform($sentence);
-            $cache->save($key, $sentence);
-        }
         // caching $number with symfony cache
         $number = $this->cacheLuckyNumber();
 
-        $result = $sentence.$number;
-
-        return $this->render('pages/number.html.twig',[
-            'number' => $result,
+        return $this->render('pages/home/number.html.twig',[
+            'number' => $number,
+            'sentence' => $sentence
         ]);
     }
 
