@@ -10,6 +10,7 @@ use AppBundle\Form\ProductType;
 use AppBundle\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -71,6 +72,15 @@ class ProductController extends Controller
             'products' => $products,
             'comments' => $comments
         ]);
+
+    }
+
+    public function getCommentsAction($productName)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $recentNotes = $em->getRepository('AppBundle:Comment')
+            ->findAllRecentComments($product);
+
 
     }
 

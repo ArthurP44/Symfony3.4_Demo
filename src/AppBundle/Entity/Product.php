@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,15 @@ class Product
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="product")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -129,7 +139,13 @@ class Product
         return $this->name();
     }
 
-
+    /**
+     * @return ArrayCollection|Comment[]
+     */
+    public function getComments(): ArrayCollection
+    {
+        return $this->comments;
+    }
 
 }
 
