@@ -3,6 +3,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Product;
 use AppBundle\Event\ProductPublishedEvent;
 use AppBundle\Form\ProductType;
@@ -27,6 +28,7 @@ class ProductController extends Controller
     public function createAction(Request $request, EventDispatcherInterface $dispatcher)
     {
         $product = new Product();
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -61,8 +63,13 @@ class ProductController extends Controller
             ->getRepository(Product::class)
             ->findAll();
 
-        return $this->render('pages/show.html.twig',[
-            'products' => $products
+        $comments = $this->getDoctrine()
+            ->getRepository(Comment::class)
+            ->findAll();
+
+        return $this->render('pages/product/show.html.twig',[
+            'products' => $products,
+            'comments' => $comments
         ]);
 
     }

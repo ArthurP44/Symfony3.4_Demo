@@ -6,6 +6,11 @@
             {% for product in products %}
                 <li>
                     <p>Name : {{ product.name }} / Price : {{ product.price|currency_EUR }} / Description : {{ product.description }}</p>
+                    {% for comment in comments %}
+                        {% if product.id == comment.product.id %}
+                            <p>"{{ comment.comment }}" - {{ comment.username}}</p>
+                        {% endif %}
+                    {% endfor %}
                 </li>
             {% endfor %}
         </ol>
