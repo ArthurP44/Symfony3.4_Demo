@@ -5,7 +5,7 @@
         <ol>
             {% for comment in comments %}
                 <li>
-                    <p>"{{ comment.comment }}" - {{ comment.username}}</p>
+                    <p>"{{ comment.comment }}" - {{ comment.username}} (for : {{ comment.product.name }})</p>
                 </li>
             {% endfor %}
         </ol>

@@ -49,10 +49,6 @@ class Product
      */
     private $comments;
 
-    public function __construct()
-    {
-        $this->comments = Collection::class;
-    }
 
     /**
      * Get id
@@ -143,7 +139,7 @@ class Product
     /**
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection
+    public function getComments()
     {
         return $this->comments;
     }

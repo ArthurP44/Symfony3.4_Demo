@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Event;
-
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

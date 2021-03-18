@@ -3,8 +3,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\MarkdownTransformer;
-use Knp\Bundle\MarkdownBundle\Parser\MarkdownParser;
+use AppBundle\Service\Capitalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -14,9 +13,10 @@ class HomeController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Capitalizer $capitalizer)
     {
-        $sentence = 'Your *lucky number* is : ';
+        $string = 'Your lucky number is : ';
+        $sentence = $capitalizer->capitalizeString($string);
 
         // caching $number with symfony cache
         $number = $this->cacheLuckyNumber();

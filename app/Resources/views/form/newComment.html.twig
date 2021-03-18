@@ -5,7 +5,9 @@
 {% block body %}
     <div class="container">
         <div class="col-md-6 mt-5">
-            {{ form(form) }}
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

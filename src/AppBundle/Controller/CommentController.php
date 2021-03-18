@@ -31,6 +31,10 @@ class CommentController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Comment created!');
+
+            return $this->redirectToRoute('comment_list');
         }
 
         return $this->render(
@@ -39,19 +43,6 @@ class CommentController extends Controller
                 'form' => $form->createView(),
             ]
         );
-    }
-
-    /**
-     * @Route("/comment/{id}", name="comment_show")
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $comment = $em->getRepository(Comment::class)->findOneBy(['id' => $id]);
-
-        return $this->render('pages/comment/show.html.twig',[
-            'comment' => $comment
-        ]);
     }
 
     /**
@@ -67,5 +58,20 @@ class CommentController extends Controller
             'comments' => $comments
         ]);
     }
+
+    /**
+     * @Route("/comment/{id}", name="comment_show")
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository(Comment::class)->findOneBy(['id' => $id]);
+
+        return $this->render('pages/comment/show.html.twig',[
+            'comment' => $comment
+        ]);
+    }
+
+
 
 }

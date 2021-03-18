@@ -1,13 +1,17 @@
 {% extends 'base.html.twig'%}
 
 {% block body %}
-    <div>
+    <div class="container-fluid">
         <ol>
             {% for product in products %}
-                <li><p> {{ product.name}} - {{ product.price|currency_EUR }} : {{ product.description }}</p></li>
-                {% for comment in product.comments %}
-                    "{{ comment.comment }}" - {{ comment.username }}
-                {% endfor %}
+                <div class="mt-5">
+                    <li><p> {{ product.name}} - {{ product.price|currency_EUR }} : <i>{{ product.description }}</i></p></li>
+                    <ul>
+                        {% for comment in product.comments %}
+                            <li>"{{ comment.comment }}" - {{ comment.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endfor %}
         </ol>
     </div>

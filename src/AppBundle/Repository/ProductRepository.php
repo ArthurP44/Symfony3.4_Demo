@@ -10,10 +10,12 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findProductOrderedByCommentUsername(){
+    public function findProductOrderedByCommentNumber(){
         return $this->createQueryBuilder('p')
+            ->addSelect('COUNT(comments) AS HIDDEN nbCom')
             ->leftJoin('p.comments', 'comments')
-            ->orderBy('comments.username', 'ASC')
+            ->groupBy('p')
+            ->orderBy("nbCom", 'DESC')
             ->getQuery()
             ->execute();
     }

@@ -7,11 +7,8 @@ use AppBundle\Entity\Comment;
 use AppBundle\Entity\Product;
 use AppBundle\Event\ProductPublishedEvent;
 use AppBundle\Form\ProductType;
-use AppBundle\Repository\ProductRepository;
-use AppBundle\Service\MarkdownTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,7 +81,7 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $products = $em->getRepository('AppBundle:Product')
-            ->findProductOrderedByCommentUsername();
+            ->findProductOrderedByCommentNumber();
 
         return $this->render('pages/product/list.html.twig',[
             'products' => $products
